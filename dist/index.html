@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#162323">
+  <title>PITWALL · 雾港耐力赛</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="session.css">
+  <link rel="stylesheet" href="telemetry.css">
+  <link rel="stylesheet" href="timing.css">
+  <link rel="stylesheet" href="garage.css">
+  <link rel="stylesheet" href="drivers.css">
+  <link rel="stylesheet" href="liveries.css">
+  <link rel="stylesheet" href="crew.css">
+  <script defer src="race.js"></script>
+  <script defer src="hypergrid.js"></script>
+  <script defer src="liveries.js"></script>
+  <script defer src="crew.js"></script>
+  <script defer src="fullrace.js"></script>
+  <script defer src="circuit.js"></script>
+  <script defer src="telemetry.js"></script>
+  <script defer src="timing.js"></script>
+  <script defer src="advisor.js"></script>
+  <script defer src="garage.js"></script>
+  <script defer src="drivers.js"></script>
+  <script defer src="ui.js"></script>
+</head>
+<body>
+<header class="mast">
+  <div class="frame mast-inner">
+    <a href="#main" class="brand" aria-label="PITWALL 策略台"><span class="flagmark" aria-hidden="true"></span>PITWALL</a>
+    <span class="mast-note" id="mastClass">邀请赛 / 策略模拟</span>
+    <span class="team"><b id="ownNumber"></b> <span id="ownTeam"></span></span>
+    <button type="button" id="chooseMode" aria-haspopup="dialog">切换赛制</button>
+  </div>
+</header>
+<main class="frame" id="main">
+  <section class="hero" aria-labelledby="raceTitle">
+    <div class="intro">
+      <div class="round"><i></i> EAST HARBOR CIRCUIT</div>
+      <h1 id="raceTitle"><strong class="event-name">雾港耐力赛</strong><span id="heroMode">邀请赛 · 32 圈</span></h1>
+      <p id="mission">在雾港指挥 27 号赛车，决定每一段赛程的配速与换胎时机。</p>
+      <div class="hero-actions">
+        <button type="button" id="openGarage" aria-haspopup="dialog" aria-controls="teamGarage">选择邀请赛车队 <span aria-hidden="true">→</span></button>
+        <button type="button" id="openDrivers" aria-haspopup="dialog" aria-controls="driverGallery">原创车手图鉴</button>
+        <button type="button" id="openGallery" aria-haspopup="dialog" aria-controls="carGallery">实车图鉴</button>
+      </div>
+    </div>
+    <div class="mapwrap" id="raceVisual">
+      <canvas id="circuit" role="img" aria-label="雾港虚构赛道的三个计时分段示意"></canvas>
+      <div class="mapcap"><span>赛道分段图</span><span>雾港 · 虚构赛道</span></div>
+      <div id="heroPhoto" hidden></div>
+      <button type="button" id="switchVisual" hidden></button>
+    </div>
+  </section>
+  <div class="metrics" aria-live="polite">
+    <div><span>当前排名</span><strong id="rank"></strong></div>
+    <div><span>已完成圈数</span><strong id="lap"></strong></div>
+    <div><span>后车差距</span><strong id="gap"></strong></div>
+    <div><span>右后胎余量</span><strong id="rr"></strong></div>
+  </div>
+  <div class="race-progress"><span class="phase-text" id="phaseText"></span><progress id="raceProgress" max="32" value="0" aria-label="赛程进度"></progress></div>
+
+  <nav class="station-nav" aria-label="指挥台分区">
+    <a href="#strategyDeck">策略指挥</a><a href="#timingSection">全场计时</a><a href="#engineeringSection">工程遥测</a><a href="#lapSection">圈速记录</a>
+  </nav>
+
+  <section id="strategyDeck" class="command-deck" aria-label="策略指挥">
+    <section class="panel radio">
+      <div class="panelhead"><h2><span class="wave" aria-hidden="true">▂▅▇▃</span>车队无线电</h2><span id="radioLap"></span></div>
+      <dl class="radio-reports">
+        <div><dt>天气</dt><dd id="radioWeather"></dd></div>
+        <div><dt>车手</dt><dd id="radioDriver"></dd></div>
+        <div><dt>轮胎</dt><dd id="radioTyres"></dd></div>
+        <div><dt>前后车</dt><dd id="radioRivals"></dd></div>
+      </dl>
+      <ol id="radioFeed" aria-label="本圈工程师来讯" aria-live="polite"></ol>
+      <details id="radioArchive" hidden><summary id="archiveCount">往圈通话</summary><ol id="olderCalls"></ol></details>
+    </section>
+
+    <section class="panel strategy" id="strategy">
+      <div class="panelhead"><h2>本圈指令</h2><span id="nextLap" class="tag"></span></div>
+      <aside class="coach" aria-labelledby="coachLabel">
+        <div class="coach-head"><label id="coachLabel" for="coachMode">车队副队长</label>
+          <select id="coachMode"><option value="key">仅关键时刻</option><option value="all">每圈建议</option><option value="off">关闭</option></select>
+        </div>
+        <div id="coachAdvice" aria-live="polite"></div>
+      </aside>
+      <fieldset>
+        <legend>车手配速</legend>
+        <div class="seg" id="pace"><button type="button" data-value="save">保胎</button><button type="button" data-value="balanced">均衡</button><button type="button" data-value="push">追击</button></div>
+      </fieldset>
+      <fieldset>
+        <legend>进站选择 <small>换胎约损失 22 秒</small></legend>
+        <div class="seg" id="pit"><button type="button" data-value="none">留在赛道</button><button type="button" data-value="slick">换干胎</button><button type="button" data-value="wet">换雨胎</button></div>
+      </fieldset>
+      <button type="button" class="primary" id="advance">下达本圈指令 <b aria-hidden="true">→</b></button>
+      <button type="button" class="cruise-control" id="cruise" aria-describedby="cruiseHint" hidden>同配速连跑，最多 3 圈</button>
+      <p class="control-hint" id="cruiseHint" hidden></p>
+    </section>
+
+    <section class="panel debrief" id="debrief" hidden>
+      <div class="panelhead"><h2>赛后复盘</h2><span class="tag" lang="en">CHEQUERED FLAG</span></div>
+      <p id="result"></p>
+      <div id="compare"></div>
+      <details id="decisionReview" class="run-log"><summary>哪一圈换个指令可能更快？</summary><p id="decisionText"></p></details>
+      <details class="run-log"><summary>查看逐圈指令与排名</summary><div id="timeline"></div></details>
+      <div class="branch-controls">
+        <label for="reviewLap">选择重试圈</label>
+        <div><select id="reviewLap"></select><button type="button" id="branch">从这圈重试</button></div>
+      </div>
+      <button type="button" id="restart" class="primary">同场重赛 <b aria-hidden="true">↻</b></button>
+    </section>
+
+    <div class="command-utilities">
+      <div class="tools"><button type="button" id="rewind">↶ 撤回上一圈</button><button type="button" id="copy">复制战况给 AI ↗</button></div>
+      <p id="toast" role="status" aria-live="polite"></p>
+    </div>
+    <section id="timingSection" aria-label="全场计时"><div id="timingTower"></div></section>
+  </section>
+
+  <section id="engineeringSection" class="data-section" aria-labelledby="engineeringTitle">
+    <div class="section-title"><h2 id="engineeringTitle">工程遥测</h2><span class="section-rule" aria-hidden="true"></span></div>
+    <div id="engineering"></div>
+  </section>
+
+  <section id="lapSection" class="data-section" aria-label="圈速记录">
+      <section class="panel telemetry">
+        <div class="panelhead"><h2>圈速记录</h2><span class="tag" id="traceTag"></span></div>
+        <div id="trace"></div>
+        <div class="latest"><span>最近圈速</span><strong id="lastTime">—</strong></div>
+        <div id="timingHistory" aria-label="近期圈速明细"></div>
+      </section>
+  </section>
+  <footer><span class="footbrand">PITWALL</span><span>虚构比赛数据 · 进度保存在此浏览器</span></footer>
+</main>
+<dialog id="driverGallery" class="driver-dialog" aria-labelledby="driverGalleryTitle">
+  <header class="gallery-head">
+    <div><h2 id="driverGalleryTitle">原创车手图鉴</h2><p>九位车手的外形参考了《碧蓝航线》角色。韩瑞允的创作灵感来自韩国海军白头山号。</p></div>
+    <form method="dialog"><button type="submit" autofocus>返回指挥台</button></form>
+  </header>
+  <div id="driverRoster"></div>
+</dialog>
+<dialog id="driverSheet" class="driver-dialog" aria-labelledby="driverSheetTitle">
+  <header class="gallery-head">
+    <h2 id="driverSheetTitle"></h2>
+    <form method="dialog"><button type="submit" autofocus>返回阵容</button></form>
+  </header>
+  <div id="driverProfile"></div>
+</dialog>
+<dialog id="driverArtwork" class="driver-dialog" aria-labelledby="driverArtTitle">
+  <header class="gallery-head">
+    <h2 id="driverArtTitle"></h2>
+    <form method="dialog"><button type="submit" autofocus>返回人物</button></form>
+  </header>
+  <div id="driverArtCanvas"></div>
+</dialog>
+<template id="liveryMedia">
+  <img data-brand="porsche" src="assets/liveries/porsche.webp" width="1536" height="1024" alt="#6 Porsche 963 原创涂装，前侧与正侧双视角">
+  <img data-brand="ferrari" src="assets/liveries/ferrari.webp" width="1536" height="1024" alt="#16 Ferrari 499P 原创涂装，前侧与正侧双视角">
+  <img data-brand="bmw" src="assets/liveries/bmw.webp" width="1536" height="1024" alt="#64 BMW M Hybrid V8 原创涂装，前侧与正侧双视角">
+  <img data-brand="alpine" src="assets/liveries/alpine.webp" width="1536" height="1024" alt="#31 Alpine A424 原创涂装，前侧与正侧双视角">
+  <img data-brand="cadillac" src="assets/liveries/cadillac.webp" width="1536" height="1024" alt="#52 Cadillac V-Series.R 原创涂装，前侧与正侧双视角">
+  <img data-brand="peugeot" src="assets/liveries/peugeot.webp" width="1536" height="1024" alt="#27 Peugeot 9X8 原创涂装，前侧与正侧双视角">
+  <img data-brand="toyota" src="assets/liveries/toyota.webp" width="1536" height="1024" alt="#83 Toyota TR010 HYBRID 原创涂装，前侧与正侧双视角">
+  <img data-brand="aston" src="assets/liveries/aston.webp" width="1536" height="1024" alt="#007 Aston Martin Valkyrie 原创涂装，前侧与正侧双视角">
+  <img data-brand="genesis" src="assets/liveries/genesis.webp" width="1536" height="1024" alt="#19 Genesis GMR-001 原创涂装，前侧与正侧双视角">
+</template>
+<template id="timingMedia">
+  <img data-key="hyper-porsche" src="assets/timing/hyper-porsche.webp" alt="">
+  <img data-key="hyper-ferrari" src="assets/timing/hyper-ferrari.webp" alt="">
+  <img data-key="hyper-bmw" src="assets/timing/hyper-bmw.webp" alt="">
+  <img data-key="hyper-alpine" src="assets/timing/hyper-alpine.webp" alt="">
+  <img data-key="hyper-cadillac" src="assets/timing/hyper-cadillac.webp" alt="">
+  <img data-key="hyper-peugeot" src="assets/timing/hyper-peugeot.webp" alt="">
+  <img data-key="gt-corvette-81" src="assets/timing/gt-corvette-81.webp" alt="">
+  <img data-key="hyper-toyota" src="assets/timing/hyper-toyota.webp" alt="">
+  <img data-key="gt-aston" src="assets/timing/gt-aston.webp" alt="">
+  <img data-key="gt-ferrari" src="assets/timing/gt-ferrari.webp" alt="">
+  <img data-key="gt-bmw" src="assets/timing/gt-bmw.webp" alt="">
+  <img data-key="gt-porsche" src="assets/timing/gt-porsche.webp" alt="">
+  <img data-key="gt-corvette" src="assets/timing/gt-corvette.webp" alt="">
+  <img data-key="gt-warspite" src="assets/timing/gt-warspite.webp" alt="">
+  <img data-key="gt-mclaren" src="assets/timing/gt-mclaren.webp" alt="">
+  <img data-key="gt-lexus" src="assets/timing/gt-lexus.webp" alt="">
+  <img data-key="aston" src="assets/timing/marks/aston.webp" alt="">
+  <img data-key="ferrari" src="assets/timing/marks/ferrari.webp" alt="">
+  <img data-key="bmw" src="assets/timing/marks/bmw.webp" alt="">
+  <img data-key="alpine" src="assets/timing/marks/alpine.webp" alt="">
+  <img data-key="cadillac" src="assets/timing/marks/cadillac.webp" alt="">
+  <img data-key="peugeot" src="assets/timing/marks/peugeot.webp" alt="">
+  <img data-key="toyota" src="assets/timing/marks/toyota.webp" alt="">
+  <img data-key="porsche" src="assets/timing/marks/porsche.webp" alt="">
+  <img data-key="corvette" src="assets/timing/marks/corvette.webp" alt="">
+  <img data-key="mclaren" src="assets/timing/marks/mclaren.webp" alt="">
+  <img data-key="lexus" src="assets/timing/marks/lexus.webp" alt="">
+</template>
+<template id="driverPages">
+  <article data-brand="toyota" data-name="Sumi Yagi">
+    <img src="assets/drivers/toyota.webp" alt="八木澄翻看红皮笔记本，黑身白袖的 GR 赛服两侧分列伙伴标识，DENSO 横贯下胸">
+    <div class="driver-copy"><h3>八木澄</h3><p class="driver-identity">日本 · 30 岁</p>
+      <p class="driver-pair">丰田 × 瑞鹤</p>
+      <p class="driver-car">GR010 HYBRID</p><p class="driver-team">Toyota Gazoo Racing · Hypercar</p>
+      <p class="driver-partner">服装标识 · DENSO、FUJITSU、AISIN、Mobil 1、ZENT、Michelin<br><a href="https://toyotagazooracing.com/wec/release/2025/rd08-race/" target="_blank" rel="noopener noreferrer">查看 2025 赛季赛车服实拍</a></p>
+      <p class="driver-bio">澄从长距离测试带来一本红皮簿子。每页对半划一道线，左边写车里是什么感觉，右边留着，下车跟工程师一起看过数据才填。</p>
+      <p class="driver-bio">有晚她回来，坚持说踏板变软了。两条刹车曲线一叠，她看了半天，翻回那一页，把“查刹车”擦掉，换成“我怕跑宽，踩早了”。</p>
+      <blockquote><small>车队无线电</small>“上一圈是我刹早了。刹车没问题。”</blockquote>
+    </div>
+  </article>
+  <article data-brand="cadillac" data-name="Tess Navarro">
+    <img src="assets/drivers/cadillac.webp" alt="泰丝戴着耳机，香槟金肩胸和黑色衣身之间有醒目的白色 Hertz 标识与黄色下划线">
+    <div class="driver-copy"><h3>泰丝·纳瓦罗</h3><p class="driver-identity">美国 · 34 岁</p>
+      <p class="driver-pair">凯迪拉克 × 新泽西</p>
+      <p class="driver-car">V-Series.R</p><p class="driver-team">Cadillac Hertz Team JOTA · Hypercar</p>
+      <p class="driver-partner">服装标识 · Hertz、Mobil 1、Michelin、BRADY、HRX<br><a href="https://www.fia.com/news/wec-cadillac-shines-sao-paulo-take-maiden-win" target="_blank" rel="noopener noreferrer">查看 2025 赛季赛车服实拍</a></p>
+      <p class="driver-bio">泰丝爱接夜班。车库里好几个人都存过她的语音，十来秒长，说的都是白天踩过的那块路肩到了夜里还能不能看清。</p>
+      <p class="driver-bio">她以前会把整圈挨个弯讲完。一次换人只来得及说“出口那摊水还在”，队友天亮后特意来谢她。后来录音前，她都会先想想接班的人最需要哪一句。</p>
+      <blockquote><small>车队无线电</small>“头灯照得太近。换人时调一下，下一棒还要在黑里跑。”</blockquote>
+    </div>
+  </article>
+  <article data-brand="peugeot" data-name="Maud Vidal">
+    <img src="assets/drivers/peugeot.webp" alt="莫德托腮坐在 93 号器材箱上，白色赛服带有黑色爪纹，双胸和袖口排列赞助章">
+    <div class="driver-copy"><h3>莫德·维达尔</h3><p class="driver-identity">法国 · 31 岁</p>
+      <p class="driver-pair">标致 × 恶毒</p>
+      <p class="driver-car">9X8 · #93</p><p class="driver-team">Team Peugeot TotalEnergies · Hypercar</p>
+      <p class="driver-partner">服装标识 · TotalEnergies、Capgemini、Michelin、Point S、Sparco<br><a href="https://peugeot-sport.com/en/2025/09/28/les-deux-peugeot-9x8-confirment-avec-une-seconde-place-et-un-top-5-au-japon/" target="_blank" rel="noopener noreferrer">查看 2025 赛季赛车服实拍</a></p>
+      <p class="driver-bio">莫德和妹妹小时候合用一辆卡丁车。每次跑完，她把秒表交给伊内丝，总要多叮嘱一句“头两圈不算，等胎热了再按”。</p>
+      <p class="driver-bio">如今她开着标致，听见妹妹的分段成绩，还是会先猜那套胎跑了多久。平时最肯收油省胎的人，偏偏看见蓝色 A424 出现在镜子里，就舍不得抬脚了。</p>
+      <blockquote><small>车队无线电</small>“别报我妹的圈速。……她刚换胎了吗？”</blockquote>
+    </div>
+  </article>
+  <article data-brand="alpine" data-name="Inès Vidal">
+    <img src="assets/drivers/alpine.webp" alt="伊内丝转身扣紧手套，黑蓝 Alpine 赛服上的 elf 与 Michelin 标识分居两侧">
+    <div class="driver-copy"><h3>伊内丝·维达尔</h3><p class="driver-identity">法国 · 28 岁</p>
+      <p class="driver-pair">Alpine × 可怖</p>
+      <p class="driver-car">A424</p><p class="driver-team">Alpine Endurance Team · Hypercar</p>
+      <p class="driver-partner">服装标识 · elf、Michelin、H. Moser &amp; Cie.、Remus、Sabelt<br><a href="https://media.alpinecars.com/alpine-endurance-team-presents-its-crews-and-livery-for-the-2025-season/?lang=eng" target="_blank" rel="noopener noreferrer">查看 2025 赛季赛车服实拍</a></p>
+      <p class="driver-bio">等姐姐练卡丁车的时候，伊内丝得替她掐表。低头抄数字也没关系，听发动机声空了那么一小下，她就知道莫德又在老地方收了油。</p>
+      <p class="driver-bio">她喜欢跟前车跑完一圈，看清对方把车放在哪儿再动手。这份耐心也有代价。有回对手连续两圈漏了内线，她又等了一圈，人家已经进站了。</p>
+      <blockquote><small>车队无线电</small>“她出弯比我快。下圈我试内线，你看我们进弯差多少。”</blockquote>
+    </div>
+  </article>
+  <article data-brand="ferrari" data-name="Nina Bellandi">
+    <img src="assets/drivers/ferrari.webp" alt="妮娜在工作台边查看刹车片，红黄赛服胸前有 Shell 与 L’OR，黄袖上分列技术伙伴标识">
+    <div class="driver-copy"><h3>妮娜·贝兰迪</h3><p class="driver-identity">意大利 · 32 岁</p>
+      <p class="driver-pair">法拉利 × 利托里奥</p>
+      <p class="driver-car">499P</p><p class="driver-team">Ferrari AF Corse · Hypercar</p>
+      <p class="driver-partner">服装标识 · Shell、L’OR、HP、Cetilar、Genesys、Richard Mille<br><a href="https://www.fiawec.com/en/news/calado-imola-one-of-the-best-wins-of-my-career/8288" target="_blank" rel="noopener noreferrer">查看 2025 赛季赛车服实拍</a></p>
+      <p class="driver-bio">妮娜在俱乐部车队当过机械师学徒。车手回来只说“前面在响”，她就得端着工具盘从左前走到右前，一样一样摸过去。</p>
+      <p class="driver-bio">轮到她开车，她能说清异响从哪边来、响几下，还会用指节在车顶敲给人听。有时她在无线电里连拆哪颗螺栓都安排好了，直到工程师一句“妮娜，看前车”。</p>
+      <blockquote><small>车队无线电</small>“右前，哒、哒。只在压过路肩那一下响，平地上很安静。”</blockquote>
+    </div>
+  </article>
+  <article data-brand="bmw" data-name="Mara Fink">
+    <img src="assets/drivers/bmw.webp" alt="玛拉拿着平板记录，红色赛服配单侧黄袖，iQOO 白色字标横跨胸腹">
+    <div class="driver-copy"><h3>玛拉·芬克</h3><p class="driver-identity">德国 · 29 岁</p>
+      <p class="driver-pair">宝马 × 欧根亲王</p>
+      <p class="driver-car">M Hybrid V8</p><p class="driver-team">BMW M Team WRT · Hypercar</p>
+      <p class="driver-partner">服装标识 · iQOO、Shell、Michelin、PUMA<br><a href="https://www.fiawec.com/en/news/bmw-buoyed-by-fantastic-podium-double/8290" target="_blank" rel="noopener noreferrer">查看 2025 赛季赛车服实拍</a></p>
+      <p class="driver-bio">从模拟器测试席换到真车，玛拉还留着一个习惯。发现出弯慢，她先请工程师把设置原样留一圈，自己试一次晚转向，看慢在哪里。</p>
+      <p class="driver-bio">早餐桌上她也爱拿糖包摆弯角，把咖啡勺当赛车。伊内丝听她讲了两条走线，伸手把奶壶放在弯心：“这里有台慢车呢？”玛拉盯着勺子看了一会儿，笑了。</p>
+      <blockquote><small>车队无线电</small>“先留着这个设置。我换一条线，再告诉你。”</blockquote>
+    </div>
+  </article>
+  <article data-brand="porsche" data-name="Hanna Kroll">
+    <img src="assets/drivers/porsche.webp" alt="汉娜端着搪瓷杯，黑红 Porsche Penske 赛服胸前分列 Ansys、Mobil 1 与 WEC，手臂有 TAG Heuer 盾章">
+    <div class="driver-copy"><h3>汉娜·克罗尔</h3><p class="driver-identity">德国 · 35 岁</p>
+      <p class="driver-pair">保时捷 × 格奈森瑙</p>
+      <p class="driver-car">963</p><p class="driver-team">Porsche Penske Motorsport · Hypercar</p>
+      <p class="driver-partner">服装标识 · Ansys、Mobil 1、Michelin、TAG Heuer、PUMA<br><a href="https://www.fiawec.com/en/driver/2025/1124" target="_blank" rel="noopener noreferrer">查看 2025 赛季赛车服实拍</a></p>
+      <p class="driver-bio">车库里有只磕掉一角的搪瓷杯。到了最后一棒，杯里还冒着热气，汉娜通常已经戴好头盔。有新人替她把冷咖啡倒了，她回来还认真找过。</p>
+      <p class="driver-bio">轮到收尾，她会把前车守过哪一边记到下一圈。有时回看录像，队友指出那个空隙原来足够宽，她会按下暂停，让大家坐到和驾驶座一样低的位置再看一遍。</p>
+      <blockquote><small>车队无线电</small>“这个缝我从车里看不全。留给我，直道末端还有一次。”</blockquote>
+    </div>
+  </article>
+  <article data-brand="corvette" data-name="Jo Brooks">
+    <img src="assets/drivers/corvette.webp" alt="乔靠着标有 81 号的护栏竖起拇指，黑白黄边赛车服的腹部和前臂都印有 Sonangol">
+    <div class="driver-copy"><h3>乔·布鲁克斯</h3><p class="driver-identity">美国 · 27 岁</p>
+      <p class="driver-pair">科尔维特 × 巴尔的摩</p>
+      <p class="driver-car">Corvette Z06 GT3.R · #81</p><p class="driver-team">TF Sport · LMGT3</p>
+      <p class="driver-partner">服装标识 · Sonangol、Goodyear、MIS Motorsport、HRX<br><a href="https://www.tfsport.co.uk/news-details.php?id=306" target="_blank" rel="noopener noreferrer">查看 2025 赛季赛车服实拍</a></p>
+      <p class="driver-bio">刚从俱乐部 GT 赛上来那阵，乔听见工程师喊“快车在后面”，就会忍不住多看一眼镜子。等原型车都过去，一直咬住的那台 GT 也跑远了。</p>
+      <p class="driver-bio">有次收车后，她拉着泰丝一起看套圈录像。81 号的后视镜里只有一团白光，换到凯迪拉克的车载视角，才看见另一台原型车已经贴到了泰丝身后。</p>
+      <blockquote><small>车队无线电</small>“过了两台，还有一台。我守自己的线，等它过去。”</blockquote>
+    </div>
+  </article>
+  <article data-brand="genesis" data-name="Han Seo-yun">
+    <img src="assets/drivers/genesis.webp" alt="韩瑞允梳低辫、别着两根橙色发夹，在长椅上抽出一截橙色胶带，身旁的头盔箱盖内贴着 701">
+    <div class="driver-copy"><h3>韩瑞允</h3><p class="driver-identity">韩国 · 28 岁</p>
+      <p class="driver-pair">捷尼赛思 × 白头山号</p>
+      <p class="driver-car">GMR-001</p><p class="driver-team">Genesis Magma Racing · Hypercar</p>
+      <p class="driver-team">原创灵感 · 韩国海军白头山号，舷号 PC-701</p>
+      <p class="driver-partner">服装标识 · Shell、Michelin、Bang &amp; Olufsen、Sparco<br><a href="https://www.fiawec.com/en/driver/2026/7" target="_blank" rel="noopener noreferrer">查看 2026 赛季赛车服实拍</a></p>
+      <p class="driver-bio">瑞允第一次跑夜测，戴着手套摸错了两回旋钮。回站后她撕了一截橙色胶带，把一头折起来贴在方向盘上。下次出站，拇指碰到那道边就找准了。</p>
+      <p class="driver-bio">后来方向盘改了版，她揭下旧胶带，贴进自己的头盔箱。新队友要跑夜班，她让人先戴上手套，闭起眼睛摸一遍。等对方睁开眼，她手里已经撕好了新的一截。</p>
+      <blockquote><small>车队无线电</small>“我这边摸得到。换人时让她自己试一下，她的手套比我的厚。”</blockquote>
+    </div>
+  </article>
+  <article data-brand="aston" data-name="Eleanor Vale">
+    <img src="assets/drivers/aston.webp" alt="暮色里，埃莉诺·维尔穿白绿赛车服扣紧手套，粉色长发拢在一侧，墨绿头盔搁在维修区墙上">
+    <div class="driver-copy"><h3>埃莉诺·维尔</h3><p class="driver-identity">英国 · 33 岁</p>
+      <p class="driver-pair">阿斯顿·马丁 × 约克公爵</p>
+      <p class="driver-car">Valkyrie</p><p class="driver-team">Aston Martin THOR Team · Hypercar</p>
+      <p class="driver-partner">服装标识 · The Heart of Racing、Michelin、Sparco、WEC<br><a href="https://www.fiawec.com/en/driver/2025/303" target="_blank" rel="noopener noreferrer">查看 2025 赛季赛车服实拍</a></p>
+      <p class="driver-bio">埃莉诺和汉娜有个赌约。两人在夜里遇上，最后一棒谁先过线，下一站的咖啡就由谁挑。汉娜连赢两次，埃莉诺跟着喝了两个周末没加奶的黑咖啡。</p>
+      <p class="driver-bio">有晚她刚解开腕带，就看见汉娜把那只缺口搪瓷杯搁上工具柜，伸手去拿头盔。埃莉诺又把腕带扣紧了。工程师往保时捷车库看了一眼，替她端走了刚倒好的咖啡。</p>
+      <blockquote><small>车队无线电</small>“保时捷换汉娜了？那咖啡替我留着。我再跑一棒。”</blockquote>
+    </div>
+  </article>
+</template>
+<template id="hyperMedia">
+  <figure data-team="warspite">
+    <img src="assets/cars/peugeot-9x8-94.jpg" alt="Peugeot TotalEnergies #94 · 2026 勒芒 24 小时赛测试日 · 左侧面" width="960" height="480">
+    <figcaption>实拍 #94 · Peugeot TotalEnergies · 2026 勒芒测试日<br><a href="https://commons.wikimedia.org/wiki/File:24_Heures_du_Mans_2026_Hypercar_No._94_Peugeot_9X8_%28left_side%29.jpg" target="_blank" rel="noopener">摄影 T GOUREAU</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a> · 缩略图</figcaption>
+  </figure>
+  <figure data-team="meridian">
+    <img src="assets/cars/hyper-ferrari.jpg" alt="Ferrari AF Corse #51 · 2026 勒芒 24 小时赛测试日 · 前侧方" width="960" height="640">
+    <figcaption>实拍 #51 · Ferrari AF Corse · 2026 勒芒测试日<br><a href="https://commons.wikimedia.org/wiki/File:24_Heures_du_Mans_2026_Hypercar_No._51_Ferrari_499P.jpg" target="_blank" rel="noopener">摄影 T GOUREAU</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a> · 缩略图</figcaption>
+  </figure>
+  <figure data-team="arco">
+    <img src="assets/cars/porsche-963-6.jpg" alt="Porsche Penske Motorsport 红白色 6 号 Porsche 963，摄于 2025 年勒芒 24 小时赛" width="960" height="540">
+    <figcaption>实拍 #6 · Porsche Penske Motorsport · 2025 勒芒 24 小时赛<br><a href="https://commons.wikimedia.org/wiki/File:24H_Le_Mans_2025_Nr._6.jpg" target="_blank" rel="noopener">摄影 Lukas Raich</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a> · 缩略图</figcaption>
+  </figure>
+  <figure data-team="kessel">
+    <img src="assets/cars/hyper-bmw.jpg" alt="BMW M Team WRT #20 · 2026 勒芒 24 小时赛测试日 · 前侧方" width="960" height="640">
+    <figcaption>实拍 #20 · BMW M Team WRT · 2026 勒芒测试日<br><a href="https://commons.wikimedia.org/wiki/File:24_Heures_du_Mans_2026_Hypercar_No._20_BMW_M_Hybrid_V8.jpg" target="_blank" rel="noopener">摄影 T GOUREAU</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a> · 缩略图</figcaption>
+  </figure>
+  <figure data-team="atlas">
+    <img src="assets/cars/hyper-alpine.jpg" alt="Alpine Endurance Team #36 · 2026 勒芒 24 小时赛测试日 · 前侧方" width="960" height="640">
+    <figcaption>实拍 #36 · Alpine Endurance Team · 2026 勒芒测试日<br><a href="https://commons.wikimedia.org/wiki/File:24_Heures_du_Mans_2026_Hypercar_No._36_Alpine_A424.jpg" target="_blank" rel="noopener">摄影 T GOUREAU</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a> · 缩略图</figcaption>
+  </figure>
+  <figure data-team="vela">
+    <img src="assets/cars/hyper-cadillac.jpg" alt="Cadillac Hertz Team JOTA #12 · 2026 勒芒 24 小时赛测试日 · 前侧方" width="960" height="640">
+    <figcaption>实拍 #12 · Cadillac Hertz Team JOTA · 2026 勒芒测试日<br><a href="https://commons.wikimedia.org/wiki/File:24_Heures_du_Mans_2026_Hypercar_No._12_Cadillac_V-Series.R.jpg" target="_blank" rel="noopener">摄影 T GOUREAU</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a> · 缩略图</figcaption>
+  </figure>
+  <figure data-team="vector">
+    <img src="assets/cars/corvette-z06-81.jpg" alt="TF Sport 黄黑色 81 号 Corvette Z06 GT3.R，摄于 2025 年勒芒 24 小时赛" width="960" height="540">
+    <figcaption>实拍 #81 · TF Sport · 2025 勒芒 24 小时赛<br><a href="https://commons.wikimedia.org/wiki/File:24H_Le_Mans_2025_Nr._81.jpg" target="_blank" rel="noopener">摄影 Lukas Raich</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a> · 缩略图</figcaption>
+  </figure>
+  <figure data-team="north">
+    <img src="assets/cars/hyper-toyota.jpg" alt="Toyota Racing #8 · 2026 勒芒 24 小时赛测试日 · 前侧方" width="960" height="640">
+    <figcaption>实拍 #8 · Toyota Racing · 2026 勒芒测试日<br><a href="https://commons.wikimedia.org/wiki/File:24_Heures_du_Mans_2026_Hypercar_No._8_Toyota_TR010_Hybrid.jpg" target="_blank" rel="noopener">摄影 T GOUREAU</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a> · 缩略图</figcaption>
+  </figure>
+</template>
+<dialog id="teamGarage" aria-labelledby="garageTitle">
+  <header class="gallery-head">
+    <div><h2 id="garageTitle">雾港邀请赛车库</h2><p>七台 Hypercar 与一台 LMGT3 同场争夺总排名</p></div>
+    <form method="dialog"><button type="submit">返回指挥台</button></form>
+  </header>
+  <div class="garage-body"><nav id="garageRoster" aria-label="选择预览车队"></nav><section id="garageDetail" aria-label="车队详情"></section></div>
+</dialog>
+<dialog id="carGallery" aria-labelledby="galleryTitle">
+  <header class="gallery-head">
+    <div><h2 id="galleryTitle">赛车侧视图鉴</h2><p>实车摄影 / 2025–2026</p></div>
+    <form method="dialog"><button type="submit" autofocus>返回指挥台</button></form>
+  </header>
+  <div class="gallery-grid">
+    <article class="car-sheet">
+      <div class="sheet-heading"><span>WEC · HYPERCAR</span><b>#94</b></div>
+      <h3>Peugeot 9X8</h3>
+      <button class="gallery-photo" aria-label="放大 Peugeot 9X8 照片"><img src="assets/cars/peugeot-9x8-94.jpg" width="960" height="480" alt="左向的 94 号标致 9X8，低矮的驾驶舱后方伸出黑红色背鳍，前后轮完整可见。"></button>
+      <div class="sheet-copy">
+        <p class="sheet-team">Peugeot TotalEnergies</p>
+        <p>视线从车顶进气口沿背鳍落到尾翼。座舱低伏在两道轮拱之间，这是这张侧影最容易辨认的地方。</p>
+        <p class="sheet-credit">2026 勒芒测试日 · 维修区入口<br>摄影 T GOUREAU · <a href="https://commons.wikimedia.org/wiki/File:24_Heures_du_Mans_2026_Hypercar_No._94_Peugeot_9X8_%28left_side%29.jpg" target="_blank" rel="noopener">照片原页</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></p>
+      </div>
+    </article>
+    <article class="car-sheet">
+      <div class="sheet-heading"><span>WEC · LMGT3</span><b>#92</b></div>
+      <h3>Porsche 911 GT3 R</h3>
+      <button class="gallery-photo" aria-label="放大 Porsche 911 GT3 R 照片"><img src="assets/cars/porsche-911-92.jpg" width="960" height="540" alt="从看台俯看朝右行驶的湖蓝色 92 号保时捷，门后的进气口、向后下滑的车顶和高架尾翼清晰可见。"></button>
+      <div class="sheet-copy">
+        <p class="sheet-team">Manthey 1st Phorm</p>
+        <p>从侧窗顶端顺着弧线看到后轮，911 的溜背轮廓很清楚。略高的机位还能看见车顶号码和尾翼上表面。</p>
+        <p class="sheet-credit">2025 勒芒 24 小时赛 · LMGT3 组冠军车<br>摄影 Lukas Raich · <a href="https://commons.wikimedia.org/wiki/File:24H_Le_Mans_2025_Nr._92.jpg" target="_blank" rel="noopener">照片原页</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></p>
+      </div>
+    </article>
+    <article class="car-sheet">
+      <div class="sheet-heading"><span>纽北 24 小时赛 · GT3</span><b>#98</b></div>
+      <h3>BMW M4 GT3 EVO</h3>
+      <button class="gallery-photo" aria-label="放大 BMW M4 GT3 EVO 照片"><img src="assets/cars/bmw-m4-gt3-98.jpg" width="960" height="640" alt="左向的 98 号宝马 M4 GT3 EVO，黄色与黑白色涂装，长发动机盖接上倾斜的风挡，门板上印有 ROWE。"></button>
+      <div class="sheet-copy">
+        <p class="sheet-team">ROWE Racing</p>
+        <p>从前轮往后看，长发动机盖接上倾斜的风挡。车门和后侧窗勾出的双门轿跑轮廓，在赛车涂装下依然清楚。</p>
+        <p class="sheet-credit">2025 纽北冠军车 · 摄于慕尼黑 BMW Welt<br>摄影 Strubbl · <a href="https://commons.wikimedia.org/wiki/File:BMW_M4_GT3_Evo_Nr._98_vom_24hNbr_Seitenansicht_2025-06-28.jpg" target="_blank" rel="noopener">照片原页</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></p>
+      </div>
+    </article>
+  </div>
+  <div class="gallery-sources">
+    <strong>官方侧绘</strong>
+    <a href="https://assets.lemans.org/explorer/pdf/courses/2026/24-heures-du-mans/spotter-le-mans-2026.pdf#page=4" target="_blank" rel="noopener">911 GT3 R LMGT3 · 勒芒 #91 与 #92 ↗</a>
+    <a href="https://www.fiawec.com/en/car/2026" target="_blank" rel="noopener">2026 WEC 全阵容 ↗</a>
+  </div>
+  <p class="gallery-note">卡片裁去部分背景，点照片可看完整取景。各图保留拍摄朝向，比例尺不同。</p>
+</dialog>
+<dialog id="photoDialog" aria-labelledby="photoTitle">
+  <header class="gallery-head"><h2 id="photoTitle"></h2><form method="dialog"><button type="submit" autofocus>返回图鉴</button></form></header>
+  <div id="largePhoto"></div>
+</dialog>
+<dialog id="modeDialog" aria-labelledby="modeTitle">
+  <h2 id="modeTitle">选择赛制</h2>
+  <button type="button" class="mode-option" data-mode="hyper"><span class="mode-title">雾港邀请赛</span><span class="mode-description">选择一位车手和她的赛车，在 32 圈混合组别比赛中争夺总排名。</span></button>
+  <button type="button" class="mode-option" data-mode="full">
+    <span class="mode-title">GT3 · 全程耐力赛</span><span class="mode-description">使用原有 27 号 W27 GT3，指挥完整比赛。</span>
+  </button>
+  <button type="button" class="mode-option" data-mode="sprint">
+    <span class="mode-title">GT3 · 最后八圈</span><span class="mode-description">从第 25 圈接手 P6，跑完冲刺。</span>
+  </button>
+  <button type="button" id="closeMode">返回指挥台</button>
+</dialog>
+<dialog id="copyDialog" aria-labelledby="copyDialogTitle">
+  <h2 id="copyDialogTitle">复制战况给 AI</h2>
+  <p>选中下方战况，复制到你使用的 AI 工具。</p>
+  <textarea aria-label="可复制的比赛战况" id="copyText" readonly></textarea>
+  <button type="button" class="primary" id="closeDialog">完成</button>
+</dialog>
+</body>
+</html>

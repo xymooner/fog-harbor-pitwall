@@ -1,0 +1,105 @@
+#teamGarage {
+  width: min(1040px, 95vw);
+  height: min(785px, 92dvh);
+  max-height: 94dvh;
+  padding: 0;
+  background: var(--paper);
+}
+#teamGarage[open] { display: flex; flex-direction: column; overflow: hidden; }
+#teamGarage .gallery-head { flex: none; }
+.garage-body {
+  display: grid;
+  grid-template-columns: minmax(225px, .73fr) minmax(0, 1.65fr);
+  flex: 1;
+  min-height: 0;
+}
+#garageRoster {
+  display: flex; flex-direction: column; gap: 5px;
+  overflow-y: auto; overscroll-behavior: contain;
+  padding: 11px; background: #e5eae2; border-right: 1px solid var(--line);
+}
+.garage-entry {
+  display: grid; grid-template-columns: 78px minmax(0, 1fr); gap: 10px;
+  align-items: center; flex: none; min-height: 60px; padding: 6px;
+  text-align: left; border: 1px solid #c5cfc3; border-radius: 3px; background: #f9faf5;
+}
+.garage-entry:hover { border-color: #718875; }
+.garage-entry[aria-pressed="true"] { border-color: #344f40; box-shadow: inset 3px 0 #f27851; background: #233b30; color: #fff; }
+.garage-entry img { display: block; width: 100%; height: 47px; object-fit: cover; border-radius: 2px; background: #c6d0c4; }
+.garage-entry > .livery-view { width: 100%; border-radius: 2px; }
+.garage-reference-photo { margin-top: 15px; border-top: 1px solid var(--line); padding-top: 9px; }
+.garage-reference-photo summary { cursor: pointer; font-size: 12px; color: var(--muted); }
+.garage-reference-photo[open] summary { margin-bottom: 8px; }
+.garage-entry-text { min-width: 0; display: grid; gap: 2px; line-height: 1.2; }
+.garage-entry-text small { font: 500 11px/1.35 var(--sans); color: var(--muted); }
+.garage-entry-text b { font-size: 13px; }
+.garage-entry[aria-pressed="true"] small { color: #d3e1d4; }
+.garage-entry .garage-progress { font-weight: 700; }
+#garageDetail { padding: 17px 21px 20px; min-width: 0; overflow-y: auto; overscroll-behavior: contain; }
+.garage-detail-head, .garage-subhead, .gl-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.garage-detail-head { margin-bottom: 11px; }
+.garage-identity { display: flex; align-items: center; gap: 11px; min-width: 0; }
+.garage-identity > img {
+  flex: none; width: 49px; height: 62px; border-radius: 3px;
+  object-fit: cover; object-position: center 25%; background: #d9dfd4;
+}
+#garageDetail .garage-driver-name { margin: 4px 0 0; color: #394f42; font: 600 12px/1.4 var(--sans); }
+#garageDetail .garage-team { margin: 0 0 2px; color: #4c6757; font: 650 12px/1.35 var(--sans); }
+#garageDetail h3 { font-size: clamp(19px, 2.5vw, 30px); line-height: 1.15; margin: 0; letter-spacing: -.025em; }
+.garage-confirm {
+  flex: none; padding: 8px 13px; border: 1px solid #d56541; border-radius: 3px;
+  font-size: 13px; font-weight: 750; color: #192820; background: var(--orange);
+}
+.garage-confirm:hover { background: #ff8b69; }
+.garage-photo { margin: 0; }
+.garage-photo-missing { display: none; }
+.garage-zoom { position: relative; display: block; overflow: hidden; width: 100%; padding: 0; border: 0; background: #1d2c25; cursor: zoom-in; }
+.garage-zoom img { display: block; width: 100%; height: auto; }
+#garageDetail .garage-zoom img { max-height: clamp(145px, 33dvh, 290px); object-fit: contain; }
+.garage-zoom::after {
+  content: "放大"; position: absolute; bottom: 6px; right: 7px;
+  padding: 1px 6px; border-radius: 2px; color: #fff; background: #12271fd9; font-size: 10px;
+}
+.garage-photo figcaption, .garage-lightbox figcaption {
+  margin: 0; padding: 6px 1px; font-size: 11px; line-height: 1.5; color: var(--muted);
+}
+#teamGarage a, .garage-photo a, .garage-lightbox a { color: #2b5c47; text-underline-offset: 2px; }
+.garage-spec, .garage-crew { margin-top: 12px; border-top: 1px solid var(--line); padding-top: 9px; }
+.garage-stories { margin-top: 12px; border-top: 1px solid var(--line); padding-top: 9px; }
+.garage-stories summary { cursor: pointer; width: fit-content; color: #294f3d; font-size: 14px; font-weight: 700; }
+#garageDetail .garage-stories h4 { margin: 12px 0 3px; }
+.garage-stories p { max-width: 45em; margin: 0; font-size: 13px; line-height: 1.7; }
+#garageDetail h4 { margin: 0; font-size: 14px; letter-spacing: .01em; }
+.garage-subhead a { font-size: 12px; }
+.garage-references { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:3px 12px; }
+#garageDetail dl {
+  display: grid; grid-template-columns: minmax(52px, max-content) minmax(0,1fr);
+  margin: 7px 0 0; column-gap: 13px; row-gap: 5px; font-size: 13px; line-height: 1.45;
+}
+#garageDetail dt { color: var(--muted); }
+#garageDetail dd { margin: 0; }
+.garage-lightbox { width: min(1050px,95vw); max-height: 93dvh; padding: 0; background: var(--paper); }
+.gl-head { padding: 10px 14px; background: var(--coal); color: #eff6ee; }
+.gl-head button { border: 1px solid #8ca395; border-radius: 3px; background: transparent; color: inherit; padding: 5px 12px; }
+.garage-lightbox > img { display: block; width: 100%; height: auto; max-height: 70dvh; object-fit: contain; background: #14241d; }
+.gl-credit { margin: 0; padding: 4px 13px 8px; }
+@media (max-width: 700px) {
+  #teamGarage { height: 93dvh; width: 96vw; max-width: 96vw; }
+  .garage-body { grid-template-columns: minmax(0,1fr); grid-template-rows: max-content minmax(0,1fr); }
+  #garageRoster {
+    flex-direction: row; overflow-x: auto; overflow-y: hidden; padding: 7px 8px;
+    border-right: 0; border-bottom: 1px solid var(--line); scroll-snap-type: x proximity;
+  }
+  .garage-entry { display: flex; flex-direction: column; align-items: stretch; justify-content: start; gap: 4px; width: 123px; padding: 5px; scroll-snap-align: center; }
+  .garage-entry img { height: 42px; width: 100%; }
+  .garage-entry-text b { font-size: 12px; }
+  .garage-entry-text small { font-size: 10px; }
+  #garageDetail { padding: 11px 12px 16px; }
+  .garage-detail-head { gap: 6px; }
+  .garage-identity { gap: 7px; }
+  .garage-identity > img { width: 38px; height: 49px; }
+  .garage-confirm { padding: 7px 9px; font-size: 12px; }
+  #garageDetail .garage-zoom img { max-height: 28dvh; }
+}

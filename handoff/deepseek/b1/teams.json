@@ -1,0 +1,390 @@
+[
+  {
+    "teamId": "arco",
+    "name": "Porsche Penske Motorsport",
+    "number": "6",
+    "model": "Porsche 963",
+    "driver": "汉娜·克罗尔",
+    "story": "汉娜第一次替雾港的 6 号车收尾时，前一班只留给她一句“前车守内线”。她把交车时最想听的三个问题写在计时板背面。从那场起，新人也得照着那块板给她交班。",
+    "paddock": "维修区练交接时，有人把对手每圈的走线背得滚瓜烂熟。汉娜扶着他坐进车里，扣好肩带，又把计时板放回护墙。刚才在墙上看得清清楚楚的那个空隙，从座舱里只剩半个车头宽。",
+    "style": "直道末端择机进攻",
+    "strength": "基础配速快，干地开阔路段适合争位置。",
+    "weakness": "连续追击时疲劳积累较快，接近换胎窗口要留余力。",
+    "radioLines": [
+      {
+        "speaker": "driver",
+        "trigger": "dryPush",
+        "text": "收到，干胎还有余量。直道末端那一下我自己找刹车点。",
+        "condition": "干胎追击，平均积水低于 2%，四胎均在温窗且余量均高于 60%，疲劳低于 45%。"
+      },
+      {
+        "speaker": "engineer",
+        "trigger": "pushFatigue",
+        "text": "汉娜，连续追了三圈以上，疲劳也上来了。报一下你还想推几圈。",
+        "condition": "连续追击至少 3 圈，疲劳超过 42%。"
+      }
+    ],
+    "gameCoefficients": {
+      "speed": -0.23,
+      "wetSkill": 0.62,
+      "care": 1.02,
+      "load": 1.03,
+      "effort": 1.08
+    },
+    "realVehicle": {
+      "category": "LMDh",
+      "engine": "4.6 L 双涡轮增压 V8",
+      "layout": "后轮驱动，后轴混动"
+    },
+    "sources": {
+      "realVehicle": [
+        "https://newsroom.porsche.com/en/press-kits/le-mans-2023/The-Porsche-963-banks-on-powerful-DNA-from-RS-Spyder-and-918-Spyder-.html"
+      ],
+      "gameModel": [
+        "dist/hypergrid.js",
+        "dist/fullrace.js"
+      ],
+      "fiction": "队史、围场手记、车手和通话均为雾港原创。车号沿用邀请赛车组。优势与代价依据雾港模型。"
+    }
+  },
+  {
+    "teamId": "meridian",
+    "name": "Meridian GT",
+    "number": "16",
+    "model": "Ferrari 499P",
+    "driver": "妮娜·贝兰迪",
+    "story": "Meridian 最早在俱乐部耐力赛里只有一把雨伞。下雨时，机械师站在维修区口，车手在无线电里补报看不见的两个区段。妮娜进队后沿用了这份分工，16 号的雨情表上一直留着三格。",
+    "paddock": "第一次雾港雨测结束，妮娜拿着扳手就往车头走。机械师把笔递给她，请她先把哪个弯能踩油写下来。她在三个区段旁各画了一道水痕，最后一个弯画了两遍。",
+    "style": "雨战稳健",
+    "strength": "三段都有积水，雨胎已进工作温度且余量充足时，妮娜可以试一圈追击。她的湿地配速受积水影响相对较小。",
+    "weakness": "整套轮胎消耗偏快，长雨段也要盯余量。",
+    "radioLines": [
+      {
+        "speaker": "driver",
+        "trigger": "wetRun",
+        "text": "三个区段都湿透了。雨胎温度合适，出弯敢给油。给我一圈，我可以试着追。",
+        "condition": "使用雨胎，三个区段的积水都至少 40%，四胎均在温窗且余量均超过 50%，疲劳低于 55%。"
+      },
+      {
+        "speaker": "engineer",
+        "trigger": "dryingWet",
+        "text": "一区的干线出来了，三区还有水。妮娜，顾一下雨胎，回站前再报一次三区。",
+        "condition": "使用雨胎且积水正在下降，一区积水最多 32%，三区至少比一区高 14 个百分点。"
+      }
+    ],
+    "gameCoefficients": {
+      "speed": 0.06,
+      "wetSkill": 0.94,
+      "care": 1.06,
+      "load": 1.03,
+      "effort": 0.97
+    },
+    "realVehicle": {
+      "category": "LMH",
+      "engine": "3.0 L 双涡轮增压 V6",
+      "layout": "后轴发动机驱动，前轴电机按规则介入"
+    },
+    "sources": {
+      "realVehicle": [
+        "https://www.fia.com/news/wec-ferrari-499p-hypercar-breaks-cover",
+        "https://assets.lemans.org/explorer/pdf/courses/2023/24-heures-du-mans/infos-course/liste-engages-24h-infos-course.pdf#page=71"
+      ],
+      "gameModel": [
+        "dist/hypergrid.js",
+        "dist/fullrace.js"
+      ],
+      "fiction": "队史、围场手记、车手和通话均为雾港原创。车号沿用邀请赛车组。优势与代价依据雾港模型。"
+    }
+  },
+  {
+    "teamId": "kessel",
+    "name": "Kestrel Racing",
+    "number": "64",
+    "model": "BMW M Hybrid V8",
+    "driver": "玛拉·芬克",
+    "story": "Kestrel 租过的第一间车库只够停一台车，模拟器架在隔壁办公室。玛拉常抱着电脑往返两边，给每次试车只留一道题。升到邀请赛后，64 号赛车的测试单还沿用那种一页只改一项的格式。",
+    "paddock": "早餐时玛拉借来三只碟子当赛段，把半勺水倒在中间那只。轮胎师刚要递雨胎的牌子，她用勺柄敲了敲两边的干碟子，说还得问问开车的人。",
+    "style": "偏早换胎",
+    "strength": "右后胎负荷较低，干地长段可以维持均衡配速。",
+    "weakness": "车手在积水段丢时较多，雨区扩大时应尽早评估换胎。",
+    "radioLines": [
+      {
+        "speaker": "engineer",
+        "trigger": "dryStint",
+        "text": "右后比右前还多，玛拉。干地这一段可以照现在的节奏跑。",
+        "condition": "干胎均衡，同一套胎至少 4 圈，平均积水低于 2%，四胎均余 60% 以上，右后余量高于右前。"
+      },
+      {
+        "speaker": "driver",
+        "trigger": "s2Ahead",
+        "text": "二号区段光头胎已经踩进水里了，一区还浅些。把雨胎准备好。",
+        "condition": "使用干胎，二区积水至少 30%，一区积水低于 20%。"
+      }
+    ],
+    "gameCoefficients": {
+      "speed": -0.07,
+      "wetSkill": 0.49,
+      "care": 0.98,
+      "load": 0.97,
+      "effort": 1.01
+    },
+    "realVehicle": {
+      "category": "LMDh",
+      "engine": "4.0 L 双涡轮增压 V8",
+      "layout": "后轮驱动，后轴混动"
+    },
+    "sources": {
+      "realVehicle": [
+        "https://www.bmw-m.com/en/fastlane/motorsport/race-cars/bmw-m-hybrid-v8.html",
+        "https://newsroom.bmwgroup.com/global/the-heart-of-the-bmw-m-hybrid-v8-p663-eight-cylinder-hybrid-turbo-engine-drives-the-lmdh-prototype"
+      ],
+      "gameModel": [
+        "dist/hypergrid.js",
+        "dist/fullrace.js"
+      ],
+      "fiction": "队史、围场手记、车手和通话均为雾港原创。车号沿用邀请赛车组。优势与代价依据雾港模型。"
+    }
+  },
+  {
+    "teamId": "atlas",
+    "name": "Atlas Sport",
+    "number": "31",
+    "model": "Alpine A424",
+    "driver": "伊内丝·维达尔",
+    "story": "Atlas 刚来雾港时经费紧，第一套练习胎要从早晨一直用到午饭。伊内丝靠这套旧胎替车组跑出了整本长距离记录。后来有人赞助新胎，工程师还是会留一套磨过的给她做对照。",
+    "paddock": "莫德来借秒表，看见妹妹在胎架上给每套胎写了一个出站圈数。她随手遮住一个，让伊内丝猜。伊内丝瞄了一眼旁边胶带揭过两次的印子，连那天午饭吃晚了都说中了。",
+    "style": "延长首段",
+    "strength": "四轮磨耗慢，路况稳定时可以多留一圈。",
+    "weakness": "基础单圈偏慢，追同胎种的前车需要更长时间。",
+    "radioLines": [
+      {
+        "speaker": "driver",
+        "trigger": "longStint",
+        "text": "这套过了十圈，四条胎都还剩六成以上。先留我在外面，把这个长段跑完。",
+        "condition": "同一套干胎至少 10 圈，四胎均余 60% 以上，平均积水低于 2%，本圈为均衡或保胎。"
+      },
+      {
+        "speaker": "engineer",
+        "trigger": "closeAhead",
+        "text": "伊内丝，前车在一秒六以内。下一圈盯它出弯，咱们的基础圈速很难一下子追回这个差距。",
+        "condition": "前车存在，冲线间隔最多 1.6 秒。"
+      }
+    ],
+    "gameCoefficients": {
+      "speed": 0.15,
+      "wetSkill": 0.72,
+      "care": 0.89,
+      "load": 1.01,
+      "effort": 0.97
+    },
+    "realVehicle": {
+      "category": "LMDh",
+      "engine": "3.4 L 单涡轮增压 V6",
+      "layout": "后轮驱动，后轴混动"
+    },
+    "sources": {
+      "realVehicle": [
+        "https://www.alpine-cars.co.uk/fia-wec/a424.html"
+      ],
+      "gameModel": [
+        "dist/hypergrid.js",
+        "dist/fullrace.js"
+      ],
+      "fiction": "队史、围场手记、车手和通话均为雾港原创。车号沿用邀请赛车组。优势与代价依据雾港模型。"
+    }
+  },
+  {
+    "teamId": "vela",
+    "name": "Vela Racing",
+    "number": "52",
+    "model": "Cadillac V-Series.R",
+    "driver": "泰丝·纳瓦罗",
+    "story": "Vela 的第一批雾港参赛者白天都得上班，只订得起晚场测试。泰丝替大家把每个难找的刹车点录成了语音。如今 52 号进了邀请赛，守夜的机械师还用第一盘录音给新人认赛道。",
+    "paddock": "有次新人放出一段很漂亮的快圈，问泰丝该留哪几秒。她把游标往后拖，停在下一圈的后胎温度上。两段录音从此挨着存，一段叫“怎么追”，另一段叫“追完以后”。",
+    "style": "激进进攻",
+    "strength": "基础配速快，胎况良好时适合争夺空档。",
+    "weakness": "右后胎负荷偏高，连续进攻时要观察温度和余量。",
+    "radioLines": [
+      {
+        "speaker": "driver",
+        "trigger": "dryPush",
+        "text": "干胎有余量。这一圈我来压，冲线时把右后温度念给我听。",
+        "condition": "干胎追击，平均积水低于 2%，四胎均在温窗且余量均高于 60%，疲劳低于 45%。"
+      },
+      {
+        "speaker": "engineer",
+        "trigger": "hotRightRear",
+        "text": "泰丝，右后超过工作温度了。下一圈出弯给油缓一点，把这条胎带回来。",
+        "condition": "右后胎温度高于所装胎种的工作温度上限。"
+      }
+    ],
+    "gameCoefficients": {
+      "speed": -0.21,
+      "wetSkill": 0.61,
+      "care": 1.02,
+      "load": 1.11,
+      "effort": 1.03
+    },
+    "realVehicle": {
+      "category": "LMDh",
+      "engine": "5.5 L 自然吸气 V8",
+      "layout": "后轮驱动，后轴混动"
+    },
+    "sources": {
+      "realVehicle": [
+        "https://www.cadillac.com/racing/wec",
+        "https://news.cadillac.com/newsroom.detail.html/Pages/news/us/en/2023/jan/0112-lmdh.html"
+      ],
+      "gameModel": [
+        "dist/hypergrid.js",
+        "dist/fullrace.js"
+      ],
+      "fiction": "队史、围场手记、车手和通话均为雾港原创。车号沿用邀请赛车组。优势与代价依据雾港模型。"
+    }
+  },
+  {
+    "teamId": "warspite",
+    "name": "Warspite Racing",
+    "number": "27",
+    "model": "Peugeot 9X8",
+    "driver": "莫德·维达尔",
+    "story": "Warspite 最早带着 W27 在雾港跑 GT3。换到 9X8 的第一次长测，莫德请原班轮胎工留下，把右后胎每五圈的余量写在旧计时板上。那块板跟着 27 号一起搬进了邀请赛车库。",
+    "paddock": "伊内丝过来还秒表时，看见姐姐的四只旧胎排得整整齐齐，便把右后胎滚到了最左边。莫德正跟人说话，伸手把磨得最薄的那只滚回原位，连头都没回。",
+    "style": "顺滑控胎",
+    "strength": "莫德的控胎能降低四轮磨耗，长段可保留进站选择。",
+    "weakness": "右后胎承受四轮中最大的负荷，追击前先看这条胎。",
+    "radioLines": [
+      {
+        "speaker": "driver",
+        "trigger": "longStint",
+        "text": "这套跑够十圈了。四条胎都还有六成，我再留一圈。妹妹的圈速等会儿报，先报右后。",
+        "condition": "同一套干胎至少 10 圈，四胎均余 60% 以上，平均积水低于 2%，本圈为均衡或保胎。"
+      },
+      {
+        "speaker": "engineer",
+        "trigger": "rrWorn",
+        "text": "莫德，右后余量到四成半以下了，比右前还少。出弯别急着给满油。",
+        "condition": "右后余量低于 45%，并且少于右前。"
+      }
+    ],
+    "gameCoefficients": {
+      "speed": 0.01,
+      "wetSkill": 0.72,
+      "care": 0.93,
+      "load": 1.14,
+      "effort": 0.96
+    },
+    "realVehicle": {
+      "category": "LMH",
+      "engine": "2.6 L 双涡轮增压 V6",
+      "layout": "后轴发动机驱动，前轴电机按规则介入"
+    },
+    "sources": {
+      "realVehicle": [
+        "https://peugeot-sport.com/wp-content/uploads/2024/11/fiche-technique-2024-9x8-1.pdf"
+      ],
+      "gameModel": [
+        "dist/hypergrid.js",
+        "dist/fullrace.js"
+      ],
+      "fiction": "队史、围场手记、车手和通话均为雾港原创。车号沿用邀请赛车组。优势与代价依据雾港模型。"
+    }
+  },
+  {
+    "teamId": "vector",
+    "name": "TF Sport",
+    "number": "81",
+    "model": "Corvette Z06 GT3.R",
+    "driver": "乔·布鲁克斯",
+    "story": "乔头一回把 81 号开进雾港邀请赛，就请原型车手来听自己的车载录音。两边听到的提示常常晚半拍。那次碰头以后，这支雾港车组把“后车离多远”列成单独一项，每次先报间隔，再报车号。",
+    "paddock": "泰丝替乔在后视镜的照片上点了两下。乔只认得前面那台车的灯，放大以后才找到后面露出的一角。第二天 81 号的挡风玻璃上贴着张便签，上面只写了一个“几台”。",
+    "style": "车流中守线",
+    "strength": "基础配速和湿地适应性都靠前，可以在雨中发起短攻。",
+    "weakness": "耗胎偏高，准备进站前再集中追击更合适。",
+    "radioLines": [
+      {
+        "speaker": "driver",
+        "trigger": "closeBehind",
+        "text": "后车不到一秒，我看到了。我守这条线，你盯它后面还有谁。",
+        "condition": "后车存在，冲线间隔低于 1 秒。"
+      },
+      {
+        "speaker": "engineer",
+        "trigger": "usedSet",
+        "text": "最薄的那条胎剩不到一半了，乔。把最好的一次追击留给进站前。",
+        "condition": "四条胎中至少一条余量低于 50%。"
+      }
+    ],
+    "gameCoefficients": {
+      "speed": -0.1,
+      "wetSkill": 0.82,
+      "care": 1.1,
+      "load": 1.05,
+      "effort": 1.04
+    },
+    "realVehicle": {
+      "category": "LMGT3",
+      "engine": "5.5 L 自然吸气 V8",
+      "layout": "中置发动机，后轮驱动"
+    },
+    "sources": {
+      "realVehicle": [
+        "https://www.chevrolet.com/motorsports/corvette-racing",
+        "https://corvetteracing.com/vehicle-info/"
+      ],
+      "gameModel": [
+        "dist/hypergrid.js",
+        "dist/fullrace.js"
+      ],
+      "fiction": "队史、围场手记、车手和通话均为雾港原创。车号沿用邀请赛车组。优势与代价依据雾港模型。"
+    }
+  },
+  {
+    "teamId": "north",
+    "name": "Northline",
+    "number": "83",
+    "model": "Toyota TR010 HYBRID",
+    "driver": "八木澄",
+    "story": "Northline 以前替俱乐部车队做长距离测试。车队第一次拿到雾港正赛名额时，澄把练习单折掉了最快圈那一栏，只留下首圈和最后一圈。83 号每次试车收工，两组数字至今都要一起念。",
+    "paddock": "一本红皮簿子被落在工程车里。轮胎师想凭笔迹认领，翻了几页却发现每一页的右半边都换个人写。澄来取本子的时候，顺手请他在今天那页补上收车时的四个胎温。",
+    "style": "耐力节奏",
+    "strength": "相同配速下疲劳上升较慢，后段仍能安排追击。",
+    "weakness": "基础单圈偏慢，前车拉开后很难在一两圈内追回。",
+    "radioLines": [
+      {
+        "speaker": "engineer",
+        "trigger": "gapAhead",
+        "text": "澄，前车已经在三秒以外。先盯分段差，咱们追回来得花几圈。",
+        "condition": "前车存在，冲线间隔超过 3 秒。"
+      },
+      {
+        "speaker": "driver",
+        "trigger": "lateReserve",
+        "text": "到后段了，我手上还有劲。四条胎也都过半，把前后间隔报给我，我还能追。",
+        "condition": "已完成至少 24 圈，使用干胎，平均积水低于 16%，疲劳低于 50%，四胎均在温窗且余量均高于 50%。"
+      }
+    ],
+    "gameCoefficients": {
+      "speed": 0.13,
+      "wetSkill": 0.68,
+      "care": 0.96,
+      "load": 1.02,
+      "effort": 0.84
+    },
+    "realVehicle": {
+      "category": "LMH",
+      "engine": "3.5 L 双涡轮增压 V6",
+      "layout": "后轴发动机驱动，前轴电机按规则介入"
+    },
+    "sources": {
+      "realVehicle": [
+        "https://media.toyota.co.uk/new-look-toyota-racing-mark-a-hybrid-milestone/"
+      ],
+      "gameModel": [
+        "dist/hypergrid.js",
+        "dist/fullrace.js"
+      ],
+      "fiction": "队史、围场手记、车手和通话均为雾港原创。车号沿用邀请赛车组。优势与代价依据雾港模型。"
+    }
+  }
+]

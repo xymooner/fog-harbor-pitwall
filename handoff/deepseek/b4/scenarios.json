@@ -1,0 +1,55 @@
+{
+  "setup": {
+    "stepSeconds": 10,
+    "radarSweepSeconds": 20,
+    "radarDelaySeconds": 10,
+    "drainMmPerHour": 16,
+    "sectors": [
+      { "id": "S1", "lengthM": 950, "eastKm": -0.35, "northKm": -0.15 },
+      { "id": "S2", "lengthM": 1000, "eastKm": 0.12, "northKm": 0.28 },
+      { "id": "S3", "lengthM": 1050, "eastKm": 0.50, "northKm": -0.12 }
+    ],
+    "rules": {
+      "greenDurationSeconds": 350,
+      "redRainMmPerHour": 52,
+      "redWaterMm": 1.6,
+      "safeRainMmPerHour": 12,
+      "safeWaterMm": 0.95,
+      "safeSweepsToRestart": 2,
+      "maximumHoldSeconds": 300,
+      "pitStopSeconds": 18
+    },
+    "cars": [
+      { "id": "27", "isPlayer": true, "baseSpeedMps": 52.0, "gridDistanceM": 36, "pace": "balanced" },
+      { "id": "16", "isPlayer": false, "baseSpeedMps": 52.2, "gridDistanceM": 24, "pace": "balanced" },
+      { "id": "64", "isPlayer": false, "baseSpeedMps": 52.1, "gridDistanceM": 12, "pace": "push" },
+      { "id": "31", "isPlayer": false, "baseSpeedMps": 51.8, "gridDistanceM": 0, "pace": "balanced" }
+    ]
+  },
+  "scenarios": [
+    {
+      "id": "edge", "name": "雨带擦边", "seed": 2,
+      "cell": { "startEastKm": -1.2, "startNorthKm": 0.70, "radiusKm": 0.55, "peakMmPerHour": 65, "windFromDeg": 270, "windSpeedMps": 8.0 },
+      "commands": [
+        { "greenSeconds": 100, "car": "27", "pace": "push" },
+        { "greenSeconds": 180, "car": "27", "pace": "balanced" }
+      ]
+    },
+    {
+      "id": "restart", "name": "雨过重启", "seed": 16,
+      "cell": { "startEastKm": -1.2, "startNorthKm": 0.08, "radiusKm": 0.85, "peakMmPerHour": 104, "windFromDeg": 270, "windSpeedMps": 11.0 },
+      "commands": [
+        { "greenSeconds": 20, "car": "27", "pitTyre": "wet" },
+        { "greenSeconds": 30, "car": "16", "pace": "push" },
+        { "greenSeconds": 170, "car": "27", "pitTyre": "slick" }
+      ]
+    },
+    {
+      "id": "abandon", "name": "持续暴雨中止", "seed": 81,
+      "cell": { "startEastKm": -0.9, "startNorthKm": -0.15, "radiusKm": 0.88, "peakMmPerHour": 98, "windFromDeg": 270, "windSpeedMps": 2.0 },
+      "commands": [
+        { "greenSeconds": 20, "car": "27", "pace": "push" }
+      ]
+    }
+  ]
+}

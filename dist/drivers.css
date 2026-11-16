@@ -1,0 +1,100 @@
+#openDrivers {
+  padding: 5px 11px; border: 1px solid #94ad9e; border-radius: 3px;
+  background: #2c4237; color: #f2f6ec; font-size: 12px; font-weight: 650;
+}
+#openDrivers:hover { background: #405d4c; }
+
+.driver-dialog {
+  width: min(1030px, 95vw); max-height: 93dvh; padding: 0;
+  background: #f3f2e9; overscroll-behavior: contain;
+}
+#driverGallery { width: min(1160px, 95vw); }
+.driver-dialog .gallery-head p { line-height: 1.5; }
+.driver-dialog .gallery-head button { white-space: nowrap; min-height: 34px; }
+#driverRoster {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+  align-items: stretch; gap: 14px; padding: 20px;
+}
+.driver-card {
+  display: flex; flex-direction: column; align-items: stretch;
+  padding: 0 0 11px; border: 1px solid #bfc8bb; border-radius: 3px;
+  text-align: left; background: #fffef6; overflow: hidden;
+}
+.driver-card::before {
+  content: ''; flex: none; height: 4px;
+  background: linear-gradient(110deg, var(--crew-ink, #243c31) 0 72%, var(--crew-accent, #e77854) 72% 100%);
+}
+.driver-card:hover { border-color: #335442; background: #edf3e7; }
+.driver-card > img {
+  display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: contain;
+  border-bottom: 1px solid #b4bcaf; background: #d9dfd4;
+}
+.driver-card > span:not(.livery-view) { padding-inline: 10px; }
+.driver-card .driver-card-heading {
+  display: flex; align-items: center; gap: 7px; min-width: 0; margin-top: 10px;
+}
+.driver-card-number {
+  flex: none; min-width: 2.5em; padding: 3px 4px;
+  border-bottom: 2px solid var(--crew-accent, #e77854); border-radius: 2px;
+  background: var(--crew-ink, #243c31); color: #fff;
+  text-align: center; font: 750 13px/1.2 var(--mono); letter-spacing: -.05em;
+}
+.driver-card-name { min-width: 0; color: #20382c; font: 750 16px/1.35 var(--sans); }
+.driver-card-pair { display: block; margin-top: 6px; color: #5a6c60; font: 500 11px/1.45 var(--sans); }
+.driver-card-car { display: block; margin-top: 5px; color: #304a3b; font: 650 12px/1.4 var(--sans); }
+.driver-card-team { display: block; margin-top: 2px; color: #596c5e; font: 500 11px/1.4 var(--sans); }
+.driver-card > .livery-view { margin: 0; padding: 0; border-bottom: 1px solid #b4bcaf; }
+
+#driverSheet { width: min(930px, 95vw); }
+#driverProfile article { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
+#driverProfile article[data-crew] {
+  border-top: 4px solid var(--crew-ink, #243c31);
+}
+#driverProfile article[data-crew] .driver-copy .driver-car {
+  border-left: 3px solid var(--crew-accent, #e77854); padding-left: 10px;
+}
+#driverProfile .driver-livery { grid-column: 1 / -1; margin: 0; border-top: 1px solid #bfc8bb; }
+#driverProfile .driver-livery figcaption { padding: 10px 16px; }
+.driver-zoom {
+  position: relative; display: block; width: 100%; padding: 0; border: 0;
+  background: #18231e; cursor: zoom-in;
+}
+.driver-zoom img {
+  display: block; width: 100%; height: auto; max-height: 73dvh; object-fit: contain;
+}
+.driver-zoom::after {
+  content: '放大原画'; position: absolute; right: 10px; bottom: 9px;
+  color: white; background: #1b2a21db; padding: 3px 8px; border-radius: 2px; font-size: 12px;
+}
+.driver-copy { align-self: center; padding: clamp(20px, 3.5vw, 44px); }
+.driver-copy h3 { margin: 0; font-size: clamp(25px, 3.4vw, 39px); line-height: 1.15; }
+.driver-copy .driver-identity { margin: 5px 0 19px; font: 600 13px/1.6 var(--sans); color: #4b6053; }
+.driver-copy .driver-pair { margin: 0 0 4px; color: #2c4837; font: 700 15px/1.4 var(--sans); }
+.driver-copy .driver-car { margin: 0; font-size: 19px; font-weight: 750; }
+.driver-copy .driver-team, .driver-copy .driver-partner { color: #42584a; font: 600 12px/1.6 var(--sans); }
+.driver-copy .driver-team { margin: 1px 0 0; }
+.driver-copy .driver-partner { margin: 0 0 15px; }
+.driver-partner a { color: inherit; text-underline-offset: 2px; }
+.driver-bio { margin: 0 0 .75em; line-height: 1.8; }
+.driver-copy blockquote {
+  margin: 17px 0 0; border-left: 3px solid #e67753; padding: 3px 0 3px 14px; font-size: 15px; line-height: 1.65;
+}
+.driver-copy blockquote small { display: block; color: #486151; font-size: 12px; font-weight: 700; }
+#driverArtwork { width: max-content; max-width: 96vw; background: #18231e; }
+#driverArtwork .gallery-head h2 { font-size: 17px; }
+#driverArtCanvas img { display: block; width: auto; height: auto; max-width: 94vw; max-height: 80dvh; object-fit: contain; }
+
+@media (max-width: 660px) {
+  #driverRoster { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; padding: 11px; }
+  .driver-card { padding-bottom: 8px; }
+  .driver-card > span:not(.livery-view) { padding-inline: 8px; }
+  .driver-card .driver-card-heading { gap: 5px; margin-top: 8px; }
+  .driver-card-number { font-size: 11px; padding-inline: 3px; }
+  .driver-card-name { font-size: 13px; }
+  .driver-card-car { font-size: 11px; }
+  .driver-card-pair, .driver-card-team { font-size: 10px; }
+  #driverProfile article { display: block; }
+  .driver-zoom img { max-height: 58dvh; }
+  .driver-copy { padding: 18px; }
+  .driver-copy .driver-identity { margin-bottom: 12px; }
+}

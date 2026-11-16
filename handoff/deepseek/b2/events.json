@@ -1,0 +1,286 @@
+{
+  "reviewed": "2026-11-14",
+  "scope": "供后续设计用的真实赛事样本，时间为分站当地时间。赛果字符串采用官方时分秒或分秒格式。",
+  "events": [
+    {
+      "id": "cec-2026-shanghai-gt3-r1",
+      "series": "小米·中国汽车耐力锦标赛（CEC）",
+      "season": 2026,
+      "round": "R1 上海站 · GT 杯第一回合决赛",
+      "venue": "上海国际赛车场",
+      "raceDate": "2026-05-10",
+      "class": "GT 杯 GT3",
+      "trackLengthKm": 5.451,
+      "entries": [
+        {
+          "number": 1,
+          "team": "326 Racing Team",
+          "drivers": [
+            "吴怡帆",
+            "刘子辰",
+            "杨硕",
+            "徐哲宇"
+          ],
+          "model": "Audi R8 LMS GT3 EVO II",
+          "entryCombination": "PRO-AM",
+          "publishedWeightKg": 1305,
+          "pitLaneMinimumSeconds": 130,
+          "driverChangesLowerBound": 3,
+          "classPosition": 1,
+          "overallPosition": 1,
+          "laps": 107,
+          "totalTime": "4:01:01.419",
+          "bestLap": "2:02.572",
+          "sources": [
+            "cec-entry",
+            "cec-result"
+          ]
+        },
+        {
+          "number": 777,
+          "team": "Climax Racing",
+          "drivers": [
+            "李东升",
+            "李东辉",
+            "周立源",
+            "韩景枫"
+          ],
+          "model": "Audi R8 LMS GT3 EVO II",
+          "entryCombination": "AM-AM",
+          "publishedWeightKg": 1305,
+          "pitLaneMinimumSeconds": 120,
+          "driverChangesLowerBound": 3,
+          "classPosition": 2,
+          "overallPosition": 2,
+          "laps": 106,
+          "totalTime": "4:01:32.363",
+          "bestLap": "2:02.920",
+          "nameNote": "成绩表末位车手作韩景枫，仲裁公告 05 作韩景丰 / Han Jingfeng。此处 drivers 沿用正式成绩表。",
+          "sources": [
+            "cec-entry",
+            "cec-result"
+          ]
+        },
+        {
+          "number": 15,
+          "team": "610 Racing",
+          "drivers": [
+            "曹其宽",
+            "董俊伯"
+          ],
+          "model": "Audi R8 LMS GT3 EVO II",
+          "entryCombination": "AM-AM",
+          "publishedWeightKg": 1305,
+          "pitLaneMinimumSeconds": 120,
+          "driverChangesLowerBound": 1,
+          "classPosition": 3,
+          "overallPosition": 3,
+          "laps": 106,
+          "totalTime": "4:01:43.604",
+          "bestLap": "2:03.169",
+          "sources": [
+            "cec-entry",
+            "cec-result"
+          ]
+        }
+      ],
+      "rules": {
+        "scheduledDurationMinutes": 240,
+        "minimumStops": 3,
+        "minimumDriverChanges": null,
+        "minimumDriverChangesNote": "§11.7 要求全部报名车手实驾。该条未给统一换人次数，entries 中的下界按车手人数减一推得。三次强制停靠另行计算。",
+        "pitWindow": null,
+        "pitWindowNote": "§11.7 及已核实的分站公告 05 未列统一开窗和关窗时刻。",
+        "pitServiceTiming": "年度底线为入口控制线至出口控制线 90 秒；上海公告 05 分车列值见 entries。",
+        "drivingTime": "本组四小时赛每名 AM 累计至少 40 分钟，PRO-AM 组合的 PRO 累计至多 120 分钟。仅可在维修区由报名搭档换人。",
+        "redFlagRestart": "出示红旗后减速列队，赛事计时继续。暂停期间禁止换人；赛道允许后跟随安全车恢复，雨势或队形可延长带队。",
+        "redFlagClassification": "若无法恢复，按暂停信号给出前一圈的名次结算（§43.9）。",
+        "sources": [
+          "cec-rules",
+          "cec-entry",
+          "cec-result"
+        ]
+      },
+      "carCard": {
+        "model": "Audi R8 LMS GT3 EVO II",
+        "modelYear": 2022,
+        "engine": "V10",
+        "nominalDisplacementL": 5.2,
+        "nominalPowerMaxKw": 430,
+        "powerCondition": "厂商标称上限，由限流器调节。本站实车功率未公布于本包核实的公告。",
+        "gearbox": "6 速序列式",
+        "drivetrain": "后轮驱动",
+        "eventWeightKg": 1305,
+        "eventWeightScope": "上海正式名单对三个样本车组公布的车重",
+        "eventPowerKw": null,
+        "sources": [
+          "audi-evo",
+          "audi-spec",
+          "cec-entry"
+        ]
+      }
+    },
+    {
+      "id": "tcr-world-tour-2025-macau-race1",
+      "series": "Kumho FIA TCR World Tour",
+      "season": 2025,
+      "round": "澳门东望洋站 · Race 1（赛季第 19 回合）",
+      "venue": "东望洋赛道",
+      "raceDate": "2025-11-15",
+      "class": "TCR World Tour",
+      "trackLengthKm": 6.12,
+      "entries": [
+        {
+          "number": 129,
+          "team": "BRC Hyundai N Squadra Corse",
+          "drivers": [
+            "Néstor Girolami"
+          ],
+          "model": "Hyundai Elantra N TCR",
+          "gridPosition": 1,
+          "overallPosition": 1,
+          "laps": 10,
+          "totalTime": "25:21.264",
+          "bestLap": "2:30.853",
+          "entryListCompensationWeightKg": null,
+          "sources": [
+            "tcr-entry",
+            "tcr-grid",
+            "tcr-result"
+          ]
+        },
+        {
+          "number": 168,
+          "team": "Cyan Racing Lynk & Co",
+          "drivers": [
+            "Yann Ehrlacher"
+          ],
+          "model": "Lynk & Co 03 FL TCR",
+          "gridPosition": 2,
+          "overallPosition": 3,
+          "laps": 10,
+          "totalTime": "25:22.524",
+          "bestLap": "2:30.885",
+          "entryListCompensationWeightKg": 30,
+          "sources": [
+            "tcr-entry",
+            "tcr-grid",
+            "tcr-result"
+          ]
+        },
+        {
+          "number": 186,
+          "team": "GOAT Racing",
+          "drivers": [
+            "Esteban Guerrieri"
+          ],
+          "model": "Honda Civic Type R FL5 TCR",
+          "gridPosition": 6,
+          "overallPosition": 4,
+          "laps": 10,
+          "totalTime": "25:23.416",
+          "bestLap": "2:30.760",
+          "entryListCompensationWeightKg": null,
+          "sources": [
+            "tcr-entry",
+            "tcr-grid",
+            "tcr-result"
+          ]
+        }
+      ],
+      "rules": {
+        "scheduledLaps": 10,
+        "racesAtMeeting": 2,
+        "minimumStops": null,
+        "minimumDriverChanges": 0,
+        "pitWindow": null,
+        "pitRequirementsNote": "附录 4 §8 载绿灯离开维修区的条件，已核实条款未给出常规停站次数或时间窗。§20.1–2 将更换报名车手限定在不可抗力下经仲裁批准，§22.1 要求单人驾驶；正常赛制无需例行换人。",
+        "redFlagRestart": "红旗后禁止超车，关闭维修区出口，车列返回维修区。赛事总监可按赛程决定停表。恢复时在安全车后出发，通常带一圈，场地条件可延长。",
+        "redFlagClassification": "无法重启时，取发出暂停信号所在圈之前的倒数第二圈末（例如第 8 圈出红旗，取第 6 圈末）。该圈末车手须靠自身动力从赛道冲线；对引发红旗的车手，按 §12.10 执行。",
+        "sources": [
+          "tcr-rules",
+          "tcr-format",
+          "tcr-grid",
+          "tcr-result"
+        ]
+      },
+      "carCard": {
+        "model": "Honda Civic Type R TCR (FL5 / H80)",
+        "modelYear": 2023,
+        "sampleNumber": 186,
+        "engine": "K20C1 架构，四缸涡轮增压",
+        "nominalDisplacementL": 2,
+        "nominalPowerApproxHp": 340,
+        "nominalTorqueNm": 420,
+        "gearbox": "6 速序列式",
+        "publishedWeightIncludingDriverKg": 1265,
+        "powerCondition": "JAS 标称约值，受 BoP 限制。",
+        "eventWeightKg": null,
+        "eventPowerHp": null,
+        "eventBoPNote": "整车厂参数和报名表 CW 分列；报名表的空格未读取为 0 kg。",
+        "sources": [
+          "honda-spec",
+          "tcr-entry",
+          "tcr-result"
+        ]
+      }
+    }
+  ],
+  "sources": {
+    "cec-rules": {
+      "title": "CEC 2026 运动规则 V3.0，2026-05-03",
+      "url": "https://static-cdn.51gt3.cn/pdf/2026/2026%E5%B9%B4%E5%B0%8F%E7%B1%B3%C2%B7%E4%B8%AD%E5%9B%BD%20%E6%B1%BD%E8%BD%A6%E8%80%90%E5%8A%9B%E9%94%A6%E6%A0%87%E8%B5%9B%20%E8%BF%90%E5%8A%A8%E8%A7%84%E5%88%99%E4%B8%AD%E8%8B%B1%E6%96%87V3.pdf",
+      "locator": "PDF 第 21–24 页 §11.7.1、§11.7.3–4、§11.7.8，PDF 第 76–79 页 §42–43"
+    },
+    "cec-entry": {
+      "title": "上海站仲裁公告 05 · 正式参赛名单",
+      "url": "https://static-cdn.51gt3.cn/pdf/2026/%E4%B8%8A%E6%B5%B7%E7%AB%99-%E5%85%AC%E5%91%8A%E6%96%87%E4%BB%B6%20%E6%AD%A3%E5%BC%8F%E5%8F%82%E8%B5%9B%E5%90%8D%E5%8D%95.pdf",
+      "locator": "第 1 页，GT 杯 GT3 表，#1、#777、#15 行"
+    },
+    "cec-result": {
+      "title": "上海 R1 GT 杯第一回合决赛正式成绩",
+      "url": "https://static-cdn.51gt3.cn/pdf/2026/%E4%B8%8A%E6%B5%B7%E7%AB%99-GT%E6%9D%AF%E5%86%B3%E8%B5%9B%20%E6%AD%A3%E5%BC%8F%E6%88%90%E7%BB%A9.pdf",
+      "locator": "第 1 页总排名 1–3 行，第 2 页 GT3 组 1–3 行；表头载日期、赛长和赛道长度"
+    },
+    "audi-spec": {
+      "title": "Audi R8 LMS (2022) 技术数据",
+      "url": "https://uploads.audi-mediacenter.com/system/production/uploaded_files/19513/file/819e5ba08a93af5075335bb42d207cef3f73f01d/Technische_Daten_Audi_R8_LMS_GT3_2021_D.pdf",
+      "locator": "第 1 页，Motor、Antrieb/Kraftübertragung 与脚注"
+    },
+    "audi-evo": {
+      "title": "Audi Sport · 2022 赛季第二次升级",
+      "url": "https://www.audi.com/en/audi-r8-lms-gt3-2021-14104/audi-r8-lms-for-the-2022-season-second-evolution-of-the-audi-r8-lms-gt3-14105",
+      "locator": "标题及首段，evo II 对应的赛季"
+    },
+    "tcr-rules": {
+      "title": "FIA 2025 TCR World Tour 运动规则",
+      "url": "https://www.fia.com/sites/default/files/documents/2025_fia_tcr_world_tour_-_sporting_regulations_-_2025.02.26_approved_by_wmsc_0.pdf",
+      "locator": "§20.1–2、§22.1、§32.2、§44–45；附录 4 §8、§11–12.10、§16.2（PDF 第 99–105 页）；附录 7（PDF 第 109 页）"
+    },
+    "tcr-format": {
+      "title": "FIA · 2025 各站赛制",
+      "url": "https://api.fia.com/sites/default/files/2025_kumho_fia_tcr_world_tour_-_competition_formats_0.pdf",
+      "locator": "第 1 页 Macau 行及星号脚注，Format 4，澳门站两个回合"
+    },
+    "tcr-entry": {
+      "title": "澳门站 FIA 报名及补偿重量表 V1",
+      "url": "https://www.fiatcrworldtour.com/images/2025/08_Macau/FIA_documents/2025_FIA_TCR_WT_08_Macau_Entry_listCW.pdf",
+      "locator": "第 1 页 #129、#168、#186 行及表下注释。此版逐站报名附有行政检查条件"
+    },
+    "tcr-grid": {
+      "title": "澳门第一回合最终发车表",
+      "url": "https://www.fiatcrworldtour.com/images/2025/08_Macau/Results/2025_FIA_TCR_WT_08_Macau_Grid_R1_final.pdf",
+      "locator": "第 1 页，发车位 P1、P2、P6 及起跑信息"
+    },
+    "tcr-result": {
+      "title": "澳门第一回合正式成绩 · Doc 45",
+      "url": "https://cdn.macau.grandprix.gov.mo/uploads/attachment/2025-11/89b319f25f9784e54206cb2d65884d9f.pdf",
+      "locator": "第 1 页，P1、P3、P4；表头和日期"
+    },
+    "honda-spec": {
+      "title": "JAS Motorsport · Civic TCR FL5 2023",
+      "url": "https://www.jasmotorsport.com/racing-cars/honda-civic-tcr-fl5-2023",
+      "locator": "Technical Specifications 的 Engine、Transmission、Weight 项"
+    }
+  }
+}

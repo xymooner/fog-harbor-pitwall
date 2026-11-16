@@ -1,0 +1,118 @@
+#timingTower {
+  min-width: 0;
+  padding: 16px 14px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+  container-type: inline-size;
+  scroll-margin-top: 56px;
+}
+.tw-head, .tw-make {
+  display: flex;
+  align-items: center;
+}
+.tw-head { justify-content: space-between; gap: 12px; margin: 0 2px 12px; }
+.tw-head h2 { margin: 0; font-size: 19px; line-height: 1.25; }
+.tw-status, .tw-guide, .tw-credit { color: var(--muted); }
+.tw-status { font-size: 12px; }
+.tw-scroll { overflow-x: auto; }
+.tw-scroll:focus-visible { outline: 2px solid #247986; outline-offset: -2px; }
+.tw-table { width: 100%; }
+.tw-table th, .tw-table td {
+  width: auto;
+  padding: 6px 5px;
+  text-align: right;
+  vertical-align: middle;
+  white-space: nowrap;
+  border: 0;
+  border-bottom: 1px solid #dce2d8;
+}
+.tw-table th:first-child { text-align: left; }
+.tw-table thead th { color: #43574b; background: #edf1e9; font: 700 11px/1.3 var(--sans); }
+.tw-table thead th:first-child { padding-left: 8px; }
+.tw-table td, .tw-table td:nth-child(3) { font: 550 12px/1.3 var(--mono); }
+.tw-table td.tw-trend { font: 650 12px/1.3 var(--sans); }
+.tw-table small, .tw-label { display: block; color: var(--muted); font: 500 10px/1.4 var(--sans); }
+.tw-table small:empty, .tw-label { display: none; }
+.tw-table .tw-close { color: #295d50; font-weight: 700; }
+.tw-table .tw-player { background: #e7eee2; }
+.tw-player th { box-shadow: inset 3px 0 #d66842; }
+
+.tw-entry {
+  display: grid;
+  grid-template-columns: 3.1ch clamp(92px, 23cqi, 148px) minmax(75px, 1fr);
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding-left: 3px;
+  color: var(--ink);
+}
+.tw-order { display: grid; justify-items: start; gap: 2px; }
+.tw-order b { font: 750 16px/1.05 var(--mono); letter-spacing: -.05em; }
+.tw-number { color: var(--muted); font: 650 11px/1.15 var(--mono); }
+.tw-own { color: #954222; font: 750 10px/1.15 var(--sans); }
+.tw-profile { display: block; height: 40px; }
+.tw-profile:has(.livery-view) { display: flex; align-items: center; }
+.tw-profile > .livery-view { width: 100%; border-radius: 3px; }
+.tw-profile img, .tw-emblem img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.tw-make { gap: 4px; color: #3d5045; font: 750 10px/1.2 var(--sans); letter-spacing: .035em; }
+.tw-emblem { display: inline-block; flex: 0 0 22px; height: 15px; }
+.tw-monogram {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 14px;
+  background: #284735;
+  border-bottom: 2px solid var(--orange);
+  color: #fff;
+  font: italic 800 11px/1 var(--sans);
+}
+.tw-table .tw-model, .tw-name { display: block; white-space: normal; }
+.tw-table .tw-model { margin-top: 2px; color: var(--ink); font: 700 13px/1.2 var(--sans); }
+.tw-name { margin-top: 2px; color: var(--muted); font: 500 11px/1.2 var(--sans); }
+.tw-guide { margin: 9px 2px 0; font-size: 11px; line-height: 1.5; }
+.tw-credit { margin: 3px 2px 0; font-size: 10px; line-height: 1.5; }
+.tw-credit a { color: inherit; text-underline-offset: 2px; }
+.tw-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+@media (min-width: 900px) {
+  .command-deck { grid-template-columns: minmax(0, .86fr) minmax(0, 1.24fr); }
+}
+@container (max-width: 495px) {
+  .tw-table, .tw-table tbody { display: block; }
+  .tw-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .tw-table tbody tr {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.15fr 1.2fr;
+    row-gap: 5px;
+    padding: 7px 8px;
+    border-bottom: 1px solid #dce2d8;
+  }
+  .tw-table tbody tr:first-child { border-top: 1px solid #dce2d8; }
+  .tw-table tbody th, .tw-table tbody td { padding: 0; border: 0; }
+  .tw-table tbody th { grid-column: 1 / -1; }
+  .tw-table tbody td { text-align: left; }
+  .tw-table tbody td:last-child { text-align: right; }
+  .tw-table .tw-player { box-shadow: inset 3px 0 #d66842; }
+  .tw-player th { box-shadow: none; }
+  .tw-entry { grid-template-columns: 30px minmax(80px, .88fr) minmax(100px, 1fr); gap: 12px; padding: 0; }
+  .tw-profile { height: 43px; }
+  .tw-label { display: block; margin-bottom: 1px; }
+}
+@media (max-width: 700px) {
+  #timingTower { padding: 13px 10px 10px; }
+  .tw-head h2 { font-size: 17px; }
+}
