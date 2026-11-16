@@ -4,7 +4,7 @@
 
 ## 开始游玩
 
-1. 打开 [GT3-Pitwall-Offline.html](GT3-Pitwall-Offline.html) 的文件页，点击 **Download raw file** 下载。整个游戏和图片都在这一个 HTML 里。
+1. **[下载离线游戏](https://github.com/xymooner/fog-harbor-pitwall/releases/latest/download/GT3-Pitwall-Offline.html)**。整个游戏和图片都在这一个 HTML 里。
 2. 在电脑上双击下载好的文件，用浏览器打开。新游戏默认指挥 **#27 Peugeot 9X8**，也可以点“选择邀请赛车队”换队。
 3. 选配速和换胎指令，跑完一圈，再看工程师的通报。浏览器会自动保存进度，续跑时用同一浏览器打开原路径的文件。
 
